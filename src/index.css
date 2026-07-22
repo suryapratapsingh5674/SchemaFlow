@@ -1,0 +1,242 @@
+@import "tailwindcss";
+
+/* ─── Design Tokens ─────────────────────────────────────────── */
+:root {
+  /* Surfaces */
+  --bg-app: #0e0f11;
+  --bg-panel: #131416;
+  --bg-elevated: #1a1b1e;
+  --bg-hover: #1f2023;
+  --bg-active: #25262b;
+  --bg-input: #18191c;
+
+  /* Borders */
+  --border-base: #2a2b2f;
+  --border-subtle: #1f2023;
+  --border-strong: #3a3b40;
+
+  /* Brand */
+  --brand: #7c6af7;
+  --brand-dim: #5a52cc;
+  --brand-muted: rgba(124, 106, 247, 0.12);
+  --brand-glow: rgba(124, 106, 247, 0.3);
+
+  /* Semantic colors */
+  --green: #3dd68c;
+  --amber: #f5a623;
+  --red: #f25f5c;
+  --blue: #4da6ff;
+  --purple: #c084fc;
+  --teal: #2dd4bf;
+
+  /* Text */
+  --text-primary: #e8e9ec;
+  --text-secondary: #8b8d96;
+  --text-muted: #50535e;
+  --text-disabled: #3a3c44;
+
+  /* Sizing */
+  --navbar-h: 48px;
+  --sidebar-w: 240px;
+  --rsidebar-w: 260px;
+  --bottom-h: 220px;
+
+  /* Radii */
+  --r-xs: 3px;
+  --r-sm: 5px;
+  --r-md: 7px;
+  --r-lg: 10px;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.5);
+  --shadow-glow: 0 0 0 1px var(--brand), 0 0 16px var(--brand-glow);
+}
+
+/* ─── Reset ─────────────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  background: var(--bg-app);
+  color: var(--text-primary);
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-size: 13px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ─── Scrollbar ─────────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-base);
+  border-radius: 8px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--border-strong);
+}
+
+/* ─── Typography ────────────────────────────────────────────── */
+.label-xs {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+/* ─── React Flow Overrides ──────────────────────────────────── */
+.react-flow__background {
+  background: var(--bg-app) !important;
+}
+
+.react-flow__controls {
+  background: var(--bg-elevated) !important;
+  border: 1px solid var(--border-base) !important;
+  border-radius: var(--r-md) !important;
+  box-shadow: var(--shadow-md) !important;
+  overflow: hidden;
+  gap: 0 !important;
+}
+
+.react-flow__controls-button {
+  background: transparent !important;
+  border: none !important;
+  border-bottom: 1px solid var(--border-subtle) !important;
+  color: var(--text-secondary) !important;
+  fill: var(--text-secondary) !important;
+  width: 28px !important;
+  height: 28px !important;
+  transition: background 0.12s !important;
+}
+
+.react-flow__controls-button:last-child {
+  border-bottom: none !important;
+}
+
+.react-flow__controls-button:hover {
+  background: var(--bg-hover) !important;
+  fill: var(--text-primary) !important;
+}
+
+.react-flow__minimap {
+  background: var(--bg-elevated) !important;
+  border: 1px solid var(--border-base) !important;
+  border-radius: var(--r-md) !important;
+  box-shadow: var(--shadow-md) !important;
+  overflow: hidden;
+}
+
+.react-flow__minimap-mask {
+  fill: rgba(14, 15, 17, 0.7) !important;
+}
+
+.react-flow__handle {
+  background: var(--brand) !important;
+  border: 2px solid var(--bg-panel) !important;
+  width: 8px !important;
+  height: 8px !important;
+  transition: transform 0.15s, box-shadow 0.15s !important;
+  opacity: 0;
+}
+
+.react-flow__node:hover .react-flow__handle,
+.react-flow__node.selected .react-flow__handle {
+  opacity: 1;
+}
+
+.react-flow__handle:hover {
+  transform: scale(1.4) !important;
+  box-shadow: 0 0 0 3px var(--brand-muted) !important;
+}
+
+.react-flow__edge-path {
+  stroke: var(--border-strong) !important;
+  stroke-width: 1.5 !important;
+}
+
+.react-flow__edge.selected .react-flow__edge-path {
+  stroke: var(--brand) !important;
+}
+
+/* ─── Animations ────────────────────────────────────────────── */
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.anim-slide-left {
+  animation: slideInLeft 0.18s ease both;
+}
+
+.anim-slide-right {
+  animation: slideInRight 0.18s ease both;
+}
+
+.anim-slide-up {
+  animation: slideInUp 0.18s ease both;
+}
+
+.anim-fade {
+  animation: fadeIn 0.15s ease both;
+}
