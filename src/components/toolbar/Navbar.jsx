@@ -24,23 +24,25 @@ export default function Navbar({
 
   return (
     <header
-      className="flex items-center px-3 gap-2 shrink-0"
+      className="flex items-center shrink-0"
       style={{
         height: 'var(--navbar-h)',
+        padding: '0 24px',
+        gap: 12,
         borderBottom: '1px solid var(--border-base)',
         background: 'var(--bg-panel)',
       }}
     >
       {/* ── Logo ── */}
-      <div className="flex items-center gap-2 mr-2 select-none">
+      <div className="flex items-center gap-3 select-none" style={{ marginRight: 12 }}>
         <div
-          className="w-6 h-6 rounded flex items-center justify-center shrink-0"
+          className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 shadow-md"
           style={{ background: 'linear-gradient(135deg, #7c6af7, #4da6ff)' }}
         >
-          <GitBranch size={13} className="text-white" />
+          <GitBranch size={16} className="text-white" />
         </div>
         <span
-          className="text-sm font-semibold tracking-tight"
+          className="text-base font-bold tracking-tight"
           style={{ color: 'var(--text-primary)' }}
         >
           Schema<span style={{ color: 'var(--brand)' }}>Flow</span>
@@ -48,18 +50,24 @@ export default function Navbar({
       </div>
 
       {/* ── Divider ── */}
-      <div className="w-px h-5 mx-1" style={{ background: 'var(--border-base)' }} />
+      <div style={{ width: 1, height: 24, margin: '0 8px', background: 'var(--border-base)' }} />
 
       {/* ── Add Collection ── */}
       <button
         id="navbar-add-collection"
         onClick={onAddCollection}
-        className="flex items-center gap-1.5 px-3 h-7 rounded text-xs font-medium cursor-pointer select-none"
+        className="flex items-center gap-2.5 cursor-pointer select-none"
         style={{
+          height: 38,
+          padding: '0 18px',
+          borderRadius: 8,
+          fontSize: 13,
+          fontWeight: 600,
           background: flash ? '#5a52cc' : 'var(--brand)',
           color: '#fff',
+          border: 'none',
           transition: 'background 0.15s ease, box-shadow 0.15s ease',
-          boxShadow: flash ? '0 0 0 3px rgba(124,106,247,0.4)' : 'none',
+          boxShadow: flash ? '0 0 0 3px rgba(124,106,247,0.4)' : '0 1px 3px rgba(0,0,0,0.3)',
         }}
         onMouseEnter={e => {
           if (!flash) e.currentTarget.style.background = 'var(--brand-dim)'
@@ -69,7 +77,7 @@ export default function Navbar({
         }}
       >
         <Plus
-          size={13}
+          size={16}
           strokeWidth={2.5}
           style={{
             transition: 'transform 0.15s ease',
@@ -83,12 +91,17 @@ export default function Navbar({
       <button
         id="navbar-generate-models"
         onClick={onGenerateModels}
-        className="flex items-center gap-1.5 px-3 h-7 rounded text-xs font-medium cursor-pointer select-none"
+        className="flex items-center gap-2.5 cursor-pointer select-none"
         style={{
+          height: 38,
+          padding: '0 18px',
+          borderRadius: 8,
+          fontSize: 13,
+          fontWeight: 500,
           background: 'var(--bg-elevated)',
           color: 'var(--text-secondary)',
           border: '1px solid var(--border-base)',
-          transition: 'all 0.1s ease',
+          transition: 'all 0.15s ease',
         }}
         onMouseEnter={e => {
           e.currentTarget.style.background = 'var(--bg-hover)'
@@ -101,7 +114,7 @@ export default function Navbar({
           e.currentTarget.style.borderColor = 'var(--border-base)'
         }}
       >
-        <Wand2 size={13} />
+        <Wand2 size={15} />
         Generate Models
       </button>
 
@@ -110,14 +123,17 @@ export default function Navbar({
 
       {/* ── Live stats chip ── */}
       <div
-        className="flex items-center gap-2 px-3 h-6 rounded-full select-none"
+        className="flex items-center gap-3.5 select-none"
         style={{
+          height: 34,
+          padding: '0 18px',
+          borderRadius: 9999,
           background: 'var(--bg-elevated)',
           border: '1px solid var(--border-base)',
         }}
       >
-        <Layers size={11} style={{ color: 'var(--text-muted)' }} />
-        <span style={{ fontSize: 11, color: 'var(--text-secondary)' }}>
+        <Layers size={14} style={{ color: 'var(--text-muted)' }} />
+        <span style={{ fontSize: 12, color: 'var(--text-secondary)' }}>
           <span
             style={{
               fontWeight: 700,
@@ -129,8 +145,8 @@ export default function Navbar({
           </span>
           {' '}collection{nodeCount !== 1 ? 's' : ''}
         </span>
-        <span style={{ color: 'var(--text-muted)', fontSize: 11 }}>·</span>
-        <span style={{ fontSize: 11, color: 'var(--text-secondary)' }}>
+        <span style={{ color: 'var(--text-muted)', fontSize: 12 }}>·</span>
+        <span style={{ fontSize: 12, color: 'var(--text-secondary)' }}>
           <span style={{ fontWeight: 700, color: 'var(--text-primary)' }}>
             {edgeCount}
           </span>

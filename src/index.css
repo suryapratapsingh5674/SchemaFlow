@@ -36,16 +36,16 @@
   --text-disabled: #3a3c44;
 
   /* Sizing */
-  --navbar-h: 48px;
-  --sidebar-w: 240px;
-  --rsidebar-w: 260px;
-  --bottom-h: 220px;
+  --navbar-h: 58px;
+  --sidebar-w: 260px;
+  --rsidebar-w: 320px;
+  --bottom-h: 270px;
 
   /* Radii */
-  --r-xs: 3px;
-  --r-sm: 5px;
-  --r-md: 7px;
-  --r-lg: 10px;
+  --r-xs: 4px;
+  --r-sm: 6px;
+  --r-md: 8px;
+  --r-lg: 12px;
 
   /* Shadows */
   --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.4);

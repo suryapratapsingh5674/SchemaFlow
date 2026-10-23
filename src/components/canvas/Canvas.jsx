@@ -72,14 +72,19 @@ function EmptyHint() {
 /* ─── Canvas hint overlay (top-right corner) ────────────────── */
 function CanvasHints() {
   return (
-    <Panel position="top-right">
+    <Panel position="top-right" style={{ margin: '16px 20px 0 0' }}>
       <div
-        className="flex flex-col gap-1 text-[10px]"
-        style={{ color: 'var(--text-muted)', userSelect: 'none' }}
+        className="flex flex-col gap-1.5 text-[11px] px-3.5 py-2.5 rounded-lg select-none shadow-md backdrop-blur-md"
+        style={{
+          background: 'rgba(19, 20, 22, 0.85)',
+          border: '1px solid var(--border-base)',
+          color: 'var(--text-muted)',
+        }}
       >
-        <span>Drag handles to connect nodes</span>
-        <span>Scroll to zoom · Drag canvas to pan</span>
-        <span>Delete / Backspace to remove selected</span>
+        <span className="font-semibold text-[10px] uppercase tracking-wider text-[var(--text-secondary)]">Tips</span>
+        <span>• Drag handles to connect nodes</span>
+        <span>• Scroll to zoom · Drag canvas to pan</span>
+        <span>• Delete / Backspace to remove selected</span>
       </div>
     </Panel>
   )
@@ -175,7 +180,7 @@ export default function Canvas({
         <Controls
           position="bottom-right"
           showInteractive={false}
-          style={{ marginBottom: 12, marginRight: 12 }}
+          style={{ marginBottom: 20, marginRight: 20 }}
         />
 
         {/* ── MiniMap ── */}
@@ -187,13 +192,14 @@ export default function Canvas({
           pannable
           zoomable
           style={{
-            marginBottom: 12,
-            marginLeft: 12,
-            width: 150,
-            height: 96,
+            marginBottom: 20,
+            marginLeft: 20,
+            width: 160,
+            height: 104,
             borderRadius: 'var(--r-md)',
             border: '1px solid var(--border-base)',
             background: 'var(--bg-elevated)',
+            boxShadow: 'var(--shadow-md)',
           }}
         />
 

@@ -39,12 +39,11 @@ const TYPE_COLOR = Object.fromEntries(FIELD_TYPES.map((t) => [t.value, t.color])
 function SectionLabel({ children }) {
   return (
     <div
-      className="flex items-center gap-2 px-4 pt-4 pb-2"
-      style={{ borderTop: '1px solid var(--border-subtle)' }}
+      className="flex items-center gap-2 px-4 pt-5 pb-2.5"
     >
       <span
         style={{
-          fontSize: 10,
+          fontSize: 10.5,
           fontWeight: 700,
           letterSpacing: '0.08em',
           textTransform: 'uppercase',
@@ -70,8 +69,9 @@ function InlineInput({ value, onChange, placeholder, mono = false, style = {} })
       style={{
         background: 'var(--bg-input)',
         border: '1px solid var(--border-subtle)',
-        borderRadius: 'var(--r-sm)',
-        padding: '5px 8px',
+        borderRadius: 'var(--r-md)',
+        padding: '0 12px',
+        height: 34,
         fontSize: 12,
         color: 'var(--text-primary)',
         fontFamily: mono ? "'JetBrains Mono', 'Fira Code', monospace" : 'inherit',
@@ -90,15 +90,15 @@ function Toggle({ value, onChange, label }) {
     <button
       type="button"
       onClick={() => onChange(!value)}
-      className="flex items-center gap-1.5 cursor-pointer select-none"
+      className="flex items-center gap-2 cursor-pointer select-none"
       title={`${label}: ${value ? 'on' : 'off'}`}
     >
       {value ? (
-        <ToggleRight size={15} style={{ color: 'var(--brand)', flexShrink: 0 }} />
+        <ToggleRight size={17} style={{ color: 'var(--brand)', flexShrink: 0 }} />
       ) : (
-        <ToggleLeft size={15} style={{ color: 'var(--text-muted)', flexShrink: 0 }} />
+        <ToggleLeft size={17} style={{ color: 'var(--text-muted)', flexShrink: 0 }} />
       )}
-      <span style={{ fontSize: 11, color: value ? 'var(--text-primary)' : 'var(--text-muted)' }}>
+      <span style={{ fontSize: 11, fontWeight: 500, color: value ? 'var(--text-primary)' : 'var(--text-muted)' }}>
         {label}
       </span>
     </button>
@@ -113,13 +113,14 @@ function TypeSelect({ value, onChange }) {
       <select
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="w-full appearance-none outline-none cursor-pointer pr-6"
+        className="w-full appearance-none outline-none cursor-pointer pr-8"
         style={{
           background: `${color}18`,
           border: `1px solid ${color}40`,
-          borderRadius: 'var(--r-sm)',
-          padding: '5px 8px',
-          fontSize: 11,
+          borderRadius: 'var(--r-md)',
+          padding: '0 12px',
+          height: 34,
+          fontSize: 11.5,
           fontWeight: 600,
           color: color,
           transition: 'border-color 0.12s',
@@ -134,8 +135,8 @@ function TypeSelect({ value, onChange }) {
         ))}
       </select>
       <ChevronDown
-        size={10}
-        className="absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none"
+        size={13}
+        className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none"
         style={{ color }}
       />
     </div>
@@ -147,87 +148,87 @@ function TypeSelect({ value, onChange }) {
 ════════════════════════════════════════════════════════════════ */
 function FieldRow({ field, index, onUpdate, onDelete, isOnly }) {
   const isId = field.isId
-
   const set = (key) => (val) => onUpdate(index, { [key]: val })
 
   return (
     <div
-      className="group"
+      className="group mx-3.5 mb-2.5 rounded-lg border transition-all"
       style={{
-        borderBottom: '1px solid var(--border-subtle)',
-        background: 'transparent',
-        transition: 'background 0.1s',
+        background: 'rgba(255, 255, 255, 0.02)',
+        borderColor: 'var(--border-subtle)',
+        padding: '10px 12px',
       }}
-      onMouseEnter={(e) => (e.currentTarget.style.background = 'rgba(255,255,255,0.015)')}
-      onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}
+      onMouseEnter={(e) => {
+        e.currentTarget.style.background = 'rgba(255, 255, 255, 0.035)'
+        e.currentTarget.style.borderColor = 'var(--border-base)'
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.background = 'rgba(255, 255, 255, 0.02)'
+        e.currentTarget.style.borderColor = 'var(--border-subtle)'
+      }}
     >
-      {/* ── Row header: name + type + delete ── */}
-      <div className="flex items-center gap-1.5 px-2 pt-2 pb-1">
-        {/* Drag grip placeholder */}
-        <GripVertical
-          size={12}
-          className="shrink-0 opacity-0 group-hover:opacity-40 transition-opacity"
-          style={{ color: 'var(--text-muted)', cursor: 'grab' }}
-        />
-
-        {/* Primary key badge */}
-        {isId && (
-          <Key size={11} style={{ color: 'var(--amber)', flexShrink: 0 }} title="Primary key" />
+      {/* ── Top row: name + delete button ── */}
+      <div className="flex items-center gap-2 mb-2.5">
+        {isId ? (
+          <Key size={13} style={{ color: 'var(--amber)', flexShrink: 0 }} title="Primary key" />
+        ) : (
+          <GripVertical
+            size={13}
+            className="shrink-0 opacity-0 group-hover:opacity-40 transition-opacity"
+            style={{ color: 'var(--text-muted)', cursor: 'grab' }}
+          />
         )}
 
-        {/* Field name input */}
         <div className="flex-1 min-w-0">
           <InlineInput
             value={field.name}
             onChange={set('name')}
             placeholder="field_name"
             mono
-            style={{ width: '100%' }}
+            style={{ width: '100%', height: 32 }}
           />
         </div>
 
-        {/* Delete button */}
         {!isId && (
           <button
             onClick={() => onDelete(index)}
             title="Delete field"
-            className="w-5 h-5 rounded flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer shrink-0"
+            className="w-7 h-7 rounded-md flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer shrink-0"
             style={{ color: 'var(--red)' }}
-            onMouseEnter={(e) => (e.currentTarget.style.background = 'rgba(242,95,92,0.12)')}
+            onMouseEnter={(e) => (e.currentTarget.style.background = 'rgba(242,95,92,0.15)')}
             onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}
           >
-            <Trash2 size={11} />
+            <Trash2 size={13} />
           </button>
         )}
       </div>
 
-      {/* ── Row body: type + toggles + default ── */}
-      <div className="px-2 pb-2 space-y-1.5 pl-8">
-        {/* Type selector */}
+      {/* ── Type Selector ── */}
+      <div className="mb-2">
         <TypeSelect value={field.type} onChange={set('type')} />
-
-        {/* Toggles row */}
-        <div className="flex items-center gap-4 pt-0.5">
-          <Toggle value={!!field.required} onChange={set('required')} label="Required" />
-          <Toggle value={!!field.unique}   onChange={set('unique')}   label="Unique"   />
-        </div>
-
-        {/* Default value input (hidden for _id) */}
-        {!isId && (
-          <div className="flex items-center gap-1.5">
-            <span style={{ fontSize: 10, color: 'var(--text-muted)', flexShrink: 0, width: 48 }}>
-              default
-            </span>
-            <InlineInput
-              value={field.default ?? ''}
-              onChange={set('default')}
-              placeholder="undefined"
-              mono
-              style={{ flex: 1, fontSize: 11 }}
-            />
-          </div>
-        )}
       </div>
+
+      {/* ── Options: Required & Unique ── */}
+      <div className="flex items-center gap-5 pt-0.5">
+        <Toggle value={!!field.required} onChange={set('required')} label="Required" />
+        <Toggle value={!!field.unique}   onChange={set('unique')}   label="Unique"   />
+      </div>
+
+      {/* ── Default value row (if not _id) ── */}
+      {!isId && (
+        <div className="flex items-center gap-2 pt-2 border-t mt-2" style={{ borderColor: 'rgba(255,255,255,0.04)' }}>
+          <span style={{ fontSize: 10.5, color: 'var(--text-muted)', flexShrink: 0, width: 44 }}>
+            default
+          </span>
+          <InlineInput
+            value={field.default ?? ''}
+            onChange={set('default')}
+            placeholder="undefined"
+            mono
+            style={{ flex: 1, fontSize: 11, height: 30 }}
+          />
+        </div>
+      )}
     </div>
   )
 }
@@ -334,31 +335,31 @@ export default function RightSidebar({
     >
       {/* ══ HEADER ═══════════════════════════════════════════════ */}
       <div
-        className="flex items-center gap-2 px-3 shrink-0"
+        className="flex items-center gap-3 px-4 shrink-0"
         style={{
-          height:       36,
+          height:       44,
           borderBottom: '1px solid var(--border-base)',
           background:   `${accent}0a`,
         }}
       >
         <span
-          style={{ width: 8, height: 8, borderRadius: '50%', background: accent, flexShrink: 0 }}
+          style={{ width: 9, height: 9, borderRadius: '50%', background: accent, flexShrink: 0 }}
         />
         <span
           style={{
-            flex: 1, fontSize: 12, fontWeight: 600, color: 'var(--text-primary)',
+            flex: 1, fontSize: 13, fontWeight: 600, color: 'var(--text-primary)',
             overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
           }}
         >
           {data?.label ?? 'Collection'}
         </span>
-        <span style={{ fontSize: 10, color: 'var(--text-muted)', flexShrink: 0 }}>
-          {fields.length} fields
+        <span style={{ fontSize: 11, color: 'var(--text-muted)', flexShrink: 0 }}>
+          {fields.length} {fields.length === 1 ? 'field' : 'fields'}
         </span>
         <button
           onClick={onClose}
           title="Close"
-          className="w-5 h-5 rounded flex items-center justify-center transition-colors cursor-pointer shrink-0"
+          className="w-7 h-7 rounded-md flex items-center justify-center transition-colors cursor-pointer shrink-0"
           style={{ color: 'var(--text-muted)' }}
           onMouseEnter={(e) => {
             e.currentTarget.style.background = 'var(--bg-active)'
@@ -369,7 +370,7 @@ export default function RightSidebar({
             e.currentTarget.style.color = 'var(--text-muted)'
           }}
         >
-          <X size={13} />
+          <X size={14} />
         </button>
       </div>
 
@@ -378,9 +379,9 @@ export default function RightSidebar({
 
         {/* ── Collection Name ── */}
         <SectionLabel>Collection</SectionLabel>
-        <div className="px-4 pb-3">
+        <div className="px-4 pb-3.5">
           <label
-            style={{ fontSize: 10, color: 'var(--text-muted)', display: 'block', marginBottom: 4 }}
+            style={{ fontSize: 10.5, fontWeight: 500, color: 'var(--text-muted)', display: 'block', marginBottom: 6 }}
           >
             Name
           </label>
@@ -389,8 +390,8 @@ export default function RightSidebar({
             onChange={setLabel}
             placeholder="CollectionName"
           />
-          <p style={{ fontSize: 10, color: 'var(--text-muted)', marginTop: 4 }}>
-            Mongoose model: <span style={{ color: accent, fontFamily: 'monospace' }}>{data?.label ?? ''}Schema</span>
+          <p style={{ fontSize: 10.5, color: 'var(--text-muted)', marginTop: 6 }}>
+            Mongoose model: <span style={{ color: accent, fontFamily: 'monospace', fontWeight: 600 }}>{data?.label ?? ''}Schema</span>
           </p>
         </div>
 
@@ -412,34 +413,34 @@ export default function RightSidebar({
         </div>
 
         {/* Add field button */}
-        <div className="px-3 py-2">
+        <div className="px-4 py-3">
           <button
             onClick={addField}
-            className="w-full flex items-center justify-center gap-1.5 h-7 rounded cursor-pointer transition-all"
+            className="w-full flex items-center justify-center gap-2 h-9 rounded-lg cursor-pointer transition-all"
             style={{
-              fontSize: 11,
-              fontWeight: 500,
+              fontSize: 12,
+              fontWeight: 600,
               color: accent,
-              background: `${accent}10`,
-              border: `1px dashed ${accent}40`,
+              background: `${accent}12`,
+              border: `1px dashed ${accent}50`,
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.background = `${accent}1a`
-              e.currentTarget.style.borderColor = `${accent}70`
+              e.currentTarget.style.background = `${accent}20`
+              e.currentTarget.style.borderColor = accent
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.background = `${accent}10`
-              e.currentTarget.style.borderColor = `${accent}40`
+              e.currentTarget.style.background = `${accent}12`
+              e.currentTarget.style.borderColor = `${accent}50`
             }}
           >
-            <Plus size={12} />
+            <Plus size={14} />
             Add field
           </button>
         </div>
 
         {/* ── Stats ── */}
         <SectionLabel>Summary</SectionLabel>
-        <div className="px-3 pb-4 grid grid-cols-2 gap-2">
+        <div className="px-4 pb-5 grid grid-cols-2 gap-2.5">
           {[
             { label: 'Total',    value: fields.length,                                    color: 'var(--brand)'          },
             { label: 'Required', value: fields.filter((f) => f.required).length,          color: 'var(--green)'          },
@@ -448,13 +449,13 @@ export default function RightSidebar({
           ].map((stat) => (
             <div
               key={stat.label}
-              className="flex flex-col items-center py-2 rounded"
+              className="flex flex-col items-center py-2.5 rounded-lg"
               style={{ background: 'var(--bg-elevated)', border: '1px solid var(--border-subtle)' }}
             >
               <span style={{ fontSize: 18, fontWeight: 700, color: stat.color, lineHeight: 1.2 }}>
                 {stat.value}
               </span>
-              <span style={{ fontSize: 9, color: 'var(--text-muted)', marginTop: 2, textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+              <span style={{ fontSize: 9.5, color: 'var(--text-muted)', marginTop: 2, textTransform: 'uppercase', letterSpacing: '0.06em' }}>
                 {stat.label}
               </span>
             </div>
@@ -484,25 +485,25 @@ function EdgeInspector({ edge, onClose, onUpdateEdge }) {
     >
       {/* Header */}
       <div
-        className="flex items-center gap-2 px-3 shrink-0"
+        className="flex items-center gap-3 px-4 shrink-0"
         style={{
-          height:       36,
+          height:       44,
           borderBottom: '1px solid var(--border-base)',
           background:   `${relCfg.color}0a`,
         }}
       >
-        <GitMerge size={13} style={{ color: relCfg.color, flexShrink: 0 }} />
-        <span style={{ flex: 1, fontSize: 12, fontWeight: 600, color: 'var(--text-primary)' }}>
+        <GitMerge size={15} style={{ color: relCfg.color, flexShrink: 0 }} />
+        <span style={{ flex: 1, fontSize: 13, fontWeight: 600, color: 'var(--text-primary)' }}>
           Relation
         </span>
         <button
           onClick={onClose}
-          className="w-5 h-5 rounded flex items-center justify-center cursor-pointer"
+          className="w-7 h-7 rounded-md flex items-center justify-center cursor-pointer transition-colors"
           style={{ color: 'var(--text-muted)' }}
           onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--bg-active)'; e.currentTarget.style.color = 'var(--text-primary)' }}
           onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'var(--text-muted)' }}
         >
-          <X size={13} />
+          <X size={14} />
         </button>
       </div>
 
@@ -510,14 +511,14 @@ function EdgeInspector({ edge, onClose, onUpdateEdge }) {
         {/* From → To */}
         <SectionLabel>Collections</SectionLabel>
         <div
-          className="mx-3 mb-3 flex items-center gap-2 px-3 py-2 rounded"
+          className="mx-4 mb-3.5 flex items-center gap-3 px-3.5 py-2.5 rounded-lg"
           style={{ background: 'var(--bg-elevated)', border: '1px solid var(--border-subtle)' }}
         >
-          <span style={{ fontSize: 12, fontWeight: 600, color: 'var(--text-primary)' }}>
+          <span style={{ fontSize: 13, fontWeight: 600, color: 'var(--text-primary)' }}>
             {d.fromCollection ?? '?'}
           </span>
-          <ArrowRight size={12} style={{ color: 'var(--text-muted)', flexShrink: 0 }} />
-          <span style={{ fontSize: 12, fontWeight: 600, color: 'var(--text-primary)' }}>
+          <ArrowRight size={13} style={{ color: 'var(--text-muted)', flexShrink: 0 }} />
+          <span style={{ fontSize: 13, fontWeight: 600, color: 'var(--text-primary)' }}>
             {d.toCollection ?? '?'}
           </span>
         </div>
@@ -526,23 +527,23 @@ function EdgeInspector({ edge, onClose, onUpdateEdge }) {
         {(d.fromField || d.toField) && (
           <>
             <SectionLabel>Fields</SectionLabel>
-            <div className="px-3 mb-3 space-y-1">
+            <div className="px-4 mb-3.5 space-y-1.5">
               {d.fromField && (
-                <div className="flex items-center gap-2">
-                  <span style={{ fontSize: 10, color: 'var(--text-muted)', width: 48, flexShrink: 0 }}>from</span>
-                  <span style={{ fontSize: 11, fontFamily: 'monospace', color: relCfg.color }}>{d.fromField}</span>
+                <div className="flex items-center gap-2.5">
+                  <span style={{ fontSize: 10.5, color: 'var(--text-muted)', width: 48, flexShrink: 0 }}>from</span>
+                  <span style={{ fontSize: 12, fontFamily: 'monospace', color: relCfg.color }}>{d.fromField}</span>
                 </div>
               )}
               {d.toField && (
-                <div className="flex items-center gap-2">
-                  <span style={{ fontSize: 10, color: 'var(--text-muted)', width: 48, flexShrink: 0 }}>to</span>
-                  <span style={{ fontSize: 11, fontFamily: 'monospace', color: 'var(--text-secondary)' }}>{d.toField}</span>
+                <div className="flex items-center gap-2.5">
+                  <span style={{ fontSize: 10.5, color: 'var(--text-muted)', width: 48, flexShrink: 0 }}>to</span>
+                  <span style={{ fontSize: 12, fontFamily: 'monospace', color: 'var(--text-secondary)' }}>{d.toField}</span>
                 </div>
               )}
               {d.fieldName && (
-                <div className="flex items-center gap-2">
-                  <span style={{ fontSize: 10, color: 'var(--text-muted)', width: 48, flexShrink: 0 }}>field</span>
-                  <span style={{ fontSize: 11, fontFamily: 'monospace', color: '#4da6ff' }}>{d.fieldName}</span>
+                <div className="flex items-center gap-2.5">
+                  <span style={{ fontSize: 10.5, color: 'var(--text-muted)', width: 48, flexShrink: 0 }}>field</span>
+                  <span style={{ fontSize: 12, fontFamily: 'monospace', color: '#4da6ff' }}>{d.fieldName}</span>
                 </div>
               )}
             </div>
@@ -551,14 +552,14 @@ function EdgeInspector({ edge, onClose, onUpdateEdge }) {
 
         {/* Relation type selector */}
         <SectionLabel>Relation Type</SectionLabel>
-        <div className="px-3 mb-3 space-y-1.5">
+        <div className="px-4 mb-3.5 space-y-2">
           {RELATION_TYPES.map((rel) => {
             const active = d.relationType === rel.value
             return (
               <button
                 key={rel.value}
                 onClick={() => onUpdateEdge(edge.id, { relationType: rel.value })}
-                className="w-full flex items-start gap-2.5 px-3 py-2 rounded cursor-pointer transition-all text-left"
+                className="w-full flex items-start gap-3 px-3.5 py-2.5 rounded-lg cursor-pointer transition-all text-left"
                 style={{
                   background: active ? `${rel.color}18` : 'transparent',
                   border:     `1px solid ${active ? rel.color : 'var(--border-subtle)'}`,
@@ -569,14 +570,14 @@ function EdgeInspector({ edge, onClose, onUpdateEdge }) {
                 <span
                   style={{
                     width: 8, height: 8, borderRadius: '50%',
-                    background: rel.color, flexShrink: 0, marginTop: 3,
+                    background: rel.color, flexShrink: 0, marginTop: 4,
                   }}
                 />
                 <div>
-                  <div style={{ fontSize: 11, fontWeight: 600, color: active ? rel.color : 'var(--text-secondary)' }}>
+                  <div style={{ fontSize: 11.5, fontWeight: 600, color: active ? rel.color : 'var(--text-secondary)' }}>
                     {rel.label}
                   </div>
-                  <div style={{ fontSize: 10, color: 'var(--text-muted)', marginTop: 1 }}>
+                  <div style={{ fontSize: 10.5, color: 'var(--text-muted)', marginTop: 2 }}>
                     {rel.desc}
                   </div>
                 </div>
@@ -588,7 +589,7 @@ function EdgeInspector({ edge, onClose, onUpdateEdge }) {
         {/* Generated code preview */}
         <SectionLabel>Code Preview</SectionLabel>
         <div
-          className="mx-3 mb-4 px-3 py-2 rounded"
+          className="mx-4 mb-5 px-3.5 py-3 rounded-lg"
           style={{
             background:  '#0d0e10',
             border:      '1px solid var(--border-subtle)',

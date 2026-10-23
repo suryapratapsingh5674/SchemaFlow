@@ -30,15 +30,15 @@ export default function LeftSidebar({
     >
       {/* ── Header ── */}
       <div
-        className="flex items-center px-3 h-9 gap-2 shrink-0"
-        style={{ borderBottom: '1px solid var(--border-subtle)' }}
+        className="flex items-center px-4 shrink-0"
+        style={{ height: 48, borderBottom: '1px solid var(--border-subtle)', gap: 10 }}
       >
-        <span className="label-xs flex-1">Collections</span>
+        <span className="label-xs flex-1 text-[11px] font-bold tracking-wider">Collections</span>
         <button
           id="sidebar-add-btn"
           onClick={onAddCollection}
           title="Add collection"
-          className="w-5 h-5 rounded flex items-center justify-center transition-colors cursor-pointer"
+          className="w-7 h-7 rounded-md flex items-center justify-center transition-colors cursor-pointer"
           style={{ color: 'var(--text-muted)' }}
           onMouseEnter={e => {
             e.currentTarget.style.background = 'var(--bg-active)'
@@ -49,25 +49,26 @@ export default function LeftSidebar({
             e.currentTarget.style.color = 'var(--text-muted)'
           }}
         >
-          <Plus size={13} />
+          <Plus size={15} />
         </button>
       </div>
 
       {/* ── Search ── */}
-      <div className="px-2 py-1.5" style={{ borderBottom: '1px solid var(--border-subtle)' }}>
+      <div style={{ padding: '10px 14px', borderBottom: '1px solid var(--border-subtle)' }}>
         <div className="relative">
           <Search
-            size={11}
-            className="absolute left-2 top-1/2 -translate-y-1/2 pointer-events-none"
+            size={13}
+            className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none"
             style={{ color: 'var(--text-muted)' }}
           />
           <input
             type="text"
-            placeholder="Filter…"
+            placeholder="Filter collections…"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full pl-6 pr-2 h-6 rounded text-xs outline-none transition-all"
+            className="w-full pl-8 pr-3 rounded-lg text-xs outline-none transition-all"
             style={{
+              height: 32,
               background: 'var(--bg-input)',
               border: '1px solid var(--border-subtle)',
               color: 'var(--text-primary)',
@@ -79,7 +80,7 @@ export default function LeftSidebar({
       </div>
 
       {/* ── Collection list ── */}
-      <div className="flex-1 overflow-y-auto py-1">
+      <div className="flex-1 overflow-y-auto py-2 px-1">
         {filtered.length === 0 ? (
           <EmptyState search={search} onAdd={onAddCollection} />
         ) : (
@@ -97,21 +98,29 @@ export default function LeftSidebar({
       </div>
 
       {/* ── Footer add button ── */}
-      <div className="p-2" style={{ borderTop: '1px solid var(--border-subtle)' }}>
+      <div style={{ padding: '12px 14px', borderTop: '1px solid var(--border-subtle)' }}>
         <button
           onClick={onAddCollection}
-          className="w-full flex items-center gap-2 px-2 h-7 rounded text-xs transition-colors cursor-pointer"
-          style={{ color: 'var(--text-muted)' }}
+          className="w-full flex items-center justify-center gap-2 rounded-lg text-xs font-semibold transition-all cursor-pointer"
+          style={{
+            height: 36,
+            padding: '0 12px',
+            color: 'var(--text-secondary)',
+            background: 'var(--bg-elevated)',
+            border: '1px dashed var(--border-strong)',
+          }}
           onMouseEnter={e => {
-            e.currentTarget.style.background = 'var(--bg-hover)'
+            e.currentTarget.style.background = 'var(--brand-muted)'
             e.currentTarget.style.color = 'var(--text-primary)'
+            e.currentTarget.style.borderColor = 'var(--brand)'
           }}
           onMouseLeave={e => {
-            e.currentTarget.style.background = 'transparent'
-            e.currentTarget.style.color = 'var(--text-muted)'
+            e.currentTarget.style.background = 'var(--bg-elevated)'
+            e.currentTarget.style.color = 'var(--text-secondary)'
+            e.currentTarget.style.borderColor = 'var(--border-strong)'
           }}
         >
-          <Plus size={13} />
+          <Plus size={14} />
           Add collection
         </button>
       </div>
@@ -131,35 +140,43 @@ function CollectionRow({ collection, isSelected, isHovered, onHover, onSelect })
       onKeyDown={(e) => e.key === 'Enter' && onSelect?.(collection.id)}
       onMouseEnter={() => onHover(collection.id)}
       onMouseLeave={() => onHover(null)}
-      className="group flex items-center gap-2 mx-1 px-2 h-7 rounded cursor-pointer transition-colors select-none"
+      className="group flex items-center gap-2.5 cursor-pointer transition-all select-none"
       style={{
+        margin: '2px 8px',
+        padding: '0 12px',
+        height: 38,
+        borderRadius: 8,
         background: isSelected
           ? 'var(--brand-muted)'
           : isHovered
             ? 'var(--bg-hover)'
             : 'transparent',
+        border: isSelected ? '1px solid rgba(124,106,247,0.3)' : '1px solid transparent',
         color: isSelected ? 'var(--text-primary)' : 'var(--text-secondary)',
       }}
     >
       {/* Color dot */}
       <span
-        className="w-1.5 h-1.5 rounded-full shrink-0"
+        className="w-2 h-2 rounded-full shrink-0 shadow-sm"
         style={{ background: accentColor }}
       />
 
       {/* Icon */}
       <Database
-        size={12}
+        size={14}
         style={{ color: isSelected ? accentColor : 'var(--text-muted)', flexShrink: 0 }}
       />
 
       {/* Label */}
-      <span className="flex-1 text-xs font-medium truncate">{collection.label}</span>
+      <span className="flex-1 text-xs font-semibold truncate">{collection.label}</span>
 
-      {/* Field count */}
+      {/* Field count pill */}
       <span
-        className="text-[10px] shrink-0"
-        style={{ color: 'var(--text-muted)' }}
+        className="text-[10px] font-semibold px-2 py-0.5 rounded-full shrink-0"
+        style={{
+          background: isSelected ? 'rgba(124,106,247,0.2)' : 'rgba(255,255,255,0.06)',
+          color: isSelected ? 'var(--brand)' : 'var(--text-secondary)',
+        }}
       >
         {collection.fields?.length ?? 0}
       </span>
@@ -167,11 +184,11 @@ function CollectionRow({ collection, isSelected, isHovered, onHover, onSelect })
       {/* More button (visible on hover/selected) */}
       <button
         onClick={(e) => e.stopPropagation()}
-        className="w-4 h-4 rounded flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
+        className="w-6 h-6 rounded-md flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer shrink-0"
         style={{ color: 'var(--text-muted)' }}
         title="Options"
       >
-        <MoreHorizontal size={11} />
+        <MoreHorizontal size={13} />
       </button>
     </div>
   )

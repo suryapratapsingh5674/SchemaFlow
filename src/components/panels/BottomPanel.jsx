@@ -202,7 +202,7 @@ function FileTabs({ fileNames, activeFile, onSelect, openTabs, onClose }) {
       style={{
         display:    'flex',
         alignItems: 'stretch',
-        height:     34,
+        height:     36,
         background: '#080a0c',
         borderBottom: '1px solid rgba(255,255,255,0.07)',
         overflowX:  'auto',
@@ -219,8 +219,8 @@ function FileTabs({ fileNames, activeFile, onSelect, openTabs, onClose }) {
             style={{
               display:    'flex',
               alignItems: 'center',
-              gap:        6,
-              padding:    '0 14px',
+              gap:        8,
+              padding:    '0 16px',
               cursor:     'pointer',
               userSelect: 'none',
               whiteSpace: 'nowrap',
@@ -234,7 +234,7 @@ function FileTabs({ fileNames, activeFile, onSelect, openTabs, onClose }) {
             onMouseEnter={e => { if (!active) e.currentTarget.style.background = 'rgba(255,255,255,0.04)' }}
             onMouseLeave={e => { if (!active) e.currentTarget.style.background = 'transparent' }}
           >
-            <FileText size={11} style={{ color, flexShrink: 0 }} />
+            <FileText size={12} style={{ color, flexShrink: 0 }} />
             <span style={{
               fontSize:   12,
               fontFamily: 'monospace',
@@ -243,18 +243,19 @@ function FileTabs({ fileNames, activeFile, onSelect, openTabs, onClose }) {
             }}>
               {name}
             </span>
-            {/* Unsaved dot or close button on hover */}
+            {/* Close button on hover */}
             <span
               style={{
-                width: 14, height: 14, display: 'flex', alignItems: 'center',
+                width: 16, height: 16, display: 'flex', alignItems: 'center',
                 justifyContent: 'center', borderRadius: '50%', flexShrink: 0,
+                marginLeft: 4,
               }}
               onClick={e => { e.stopPropagation(); onClose(name) }}
               onMouseEnter={e => (e.currentTarget.style.background = 'rgba(255,255,255,0.1)')}
               onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
               title="Close"
             >
-              <XIcon size={9} style={{ color: '#636674' }} />
+              <XIcon size={10} style={{ color: '#636674' }} />
             </span>
           </div>
         )
@@ -294,16 +295,16 @@ function FolderRow({ name, open, onToggle, depth }) {
   return (
     <button
       onClick={onToggle}
-      className="w-full flex items-center gap-1.5 cursor-pointer select-none"
+      className="w-full flex items-center gap-2 cursor-pointer select-none"
       style={{
-        height: 26, paddingLeft: 6 + depth * 14, paddingRight: 8,
+        height: 28, paddingLeft: 8 + depth * 14, paddingRight: 10,
         background: 'transparent', transition: 'background 0.1s',
       }}
       onMouseEnter={e => (e.currentTarget.style.background = 'rgba(255,255,255,0.05)')}
       onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
     >
-      <ChevronRight size={10} style={{ flexShrink: 0, color: '#3e4451', transform: open ? 'rotate(90deg)' : 'rotate(0deg)', transition: 'transform 0.15s ease' }} />
-      <Icon size={13} style={{ flexShrink: 0, color: '#f5a623' }} />
+      <ChevronRight size={11} style={{ flexShrink: 0, color: '#3e4451', transform: open ? 'rotate(90deg)' : 'rotate(0deg)', transition: 'transform 0.15s ease' }} />
+      <Icon size={14} style={{ flexShrink: 0, color: '#f5a623' }} />
       <span style={{ fontSize: 12, fontFamily: 'monospace', color: '#636674', marginLeft: 2 }}>{name}</span>
     </button>
   )
@@ -314,9 +315,9 @@ function TreeFile({ name, active, onClick, depth }) {
   return (
     <button
       onClick={onClick}
-      className="w-full flex items-center gap-1.5 cursor-pointer"
+      className="w-full flex items-center gap-2 cursor-pointer"
       style={{
-        height: 26, paddingLeft: 6 + depth * 14, paddingRight: 8,
+        height: 28, paddingLeft: 8 + depth * 14, paddingRight: 10,
         background: active ? 'rgba(124,106,247,0.14)' : 'transparent',
         borderLeft: active ? '2px solid #7c6af7' : '2px solid transparent',
         transition: 'background 0.1s',
@@ -324,7 +325,7 @@ function TreeFile({ name, active, onClick, depth }) {
       onMouseEnter={e => { if (!active) e.currentTarget.style.background = 'rgba(255,255,255,0.05)' }}
       onMouseLeave={e => { if (!active) e.currentTarget.style.background = active ? 'rgba(124,106,247,0.14)' : 'transparent' }}
     >
-      <FileText size={11} style={{ flexShrink: 0, color }} />
+      <FileText size={12} style={{ flexShrink: 0, color }} />
       <span style={{ fontSize: 12, fontFamily: 'monospace', fontWeight: active ? 600 : 400, color: active ? '#e8e9ec' : '#636674' }}>
         {name}
       </span>
@@ -504,7 +505,7 @@ export default function BottomPanel({ generatedCode = null, collapsed, onToggle 
     <div
       className="shrink-0 flex flex-col"
       style={{
-        height:     collapsed ? 36 : 'var(--bottom-h)',
+        height:     collapsed ? 40 : 'var(--bottom-h)',
         borderTop:  '1px solid var(--border-base)',
         background: '#0a0b0d',
         transition: 'height 0.2s ease',
@@ -513,17 +514,17 @@ export default function BottomPanel({ generatedCode = null, collapsed, onToggle 
     >
       {/* ══ FORMAT TAB BAR ═══════════════════════════════════════ */}
       <div
-        className="flex items-center gap-0.5 px-3 shrink-0"
+        className="flex items-center gap-1 px-4 shrink-0"
         style={{
-          height:       36,
+          height:       40,
           borderBottom: collapsed ? 'none' : '1px solid rgba(255,255,255,0.07)',
           background:   '#080a0c',
         }}
       >
-        <Terminal size={12} style={{ color: '#3e4451', marginRight: 6 }} />
+        <Terminal size={13} style={{ color: '#3e4451', marginRight: 6 }} />
         <span style={{
           fontSize: 10, fontWeight: 700, letterSpacing: '0.1em',
-          textTransform: 'uppercase', color: '#3e4451', marginRight: 10,
+          textTransform: 'uppercase', color: '#50535e', marginRight: 12,
         }}>
           Output
         </span>
@@ -536,18 +537,18 @@ export default function BottomPanel({ generatedCode = null, collapsed, onToggle 
             <button
               key={tab.id}
               onClick={() => switchFormat(tab.id)}
-              className="flex items-center gap-1.5 px-3 h-7 rounded text-xs font-medium cursor-pointer transition-all"
+              className="flex items-center gap-2 px-3.5 h-8 rounded-lg text-xs font-semibold cursor-pointer transition-all"
               style={{
-                background: active ? 'rgba(255,255,255,0.07)' : 'transparent',
+                background: active ? 'rgba(255,255,255,0.08)' : 'transparent',
                 color:      active ? '#e8e9ec' : '#636674',
-                border:     active ? '1px solid rgba(255,255,255,0.1)' : '1px solid transparent',
+                border:     active ? '1px solid rgba(255,255,255,0.12)' : '1px solid transparent',
               }}
             >
-              <Icon size={11} />
+              <Icon size={12} />
               {tab.label}
               {count > 0 && (
                 <span style={{
-                  fontSize: 9, fontWeight: 700, padding: '0 5px', borderRadius: 10,
+                  fontSize: 9.5, fontWeight: 700, padding: '1px 6px', borderRadius: 10,
                   background: active ? '#7c6af7' : 'rgba(255,255,255,0.08)',
                   color:      active ? '#fff' : '#636674',
                 }}>
@@ -564,24 +565,24 @@ export default function BottomPanel({ generatedCode = null, collapsed, onToggle 
           <button
             onClick={downloadFile}
             title={`Download ${resolvedFile}`}
-            className="flex items-center gap-1 px-2 h-6 rounded text-xs cursor-pointer transition-all"
-            style={{ color: '#636674', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)' }}
-            onMouseEnter={e => (e.currentTarget.style.color = '#abb2bf')}
-            onMouseLeave={e => (e.currentTarget.style.color = '#636674')}
+            className="flex items-center gap-1.5 px-3 h-7.5 rounded-lg text-xs font-medium cursor-pointer transition-all"
+            style={{ color: '#8b8d96', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)' }}
+            onMouseEnter={e => (e.currentTarget.style.color = '#e8e9ec')}
+            onMouseLeave={e => (e.currentTarget.style.color = '#8b8d96')}
           >
-            <Download size={11} /> Download
+            <Download size={12} /> Download
           </button>
         )}
 
         <button
           onClick={onToggle}
           title={collapsed ? 'Expand' : 'Collapse'}
-          className="w-6 h-6 rounded flex items-center justify-center cursor-pointer transition-colors ml-1"
-          style={{ color: '#3e4451' }}
+          className="w-7 h-7 rounded-lg flex items-center justify-center cursor-pointer transition-colors ml-1.5"
+          style={{ color: '#50535e' }}
           onMouseEnter={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.07)'; e.currentTarget.style.color = '#abb2bf' }}
-          onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = '#3e4451' }}
+          onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = '#50535e' }}
         >
-          {collapsed ? <ChevronUp size={13} /> : <ChevronDown size={13} />}
+          {collapsed ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
         </button>
       </div>
 
@@ -591,15 +592,15 @@ export default function BottomPanel({ generatedCode = null, collapsed, onToggle 
 
           {/* ── Folder Tree Sidebar ── */}
           <div style={{
-            width: 186, flexShrink: 0,
+            width: 210, flexShrink: 0,
             borderRight: '1px solid rgba(255,255,255,0.06)',
             background:  '#0a0b0d',
             overflowY:   'auto',
           }}>
             <div style={{
-              padding: '6px 10px 5px',
-              fontSize: 9, fontWeight: 700, letterSpacing: '0.1em',
-              textTransform: 'uppercase', color: '#3e4451',
+              padding: '8px 14px 6px',
+              fontSize: 10, fontWeight: 700, letterSpacing: '0.1em',
+              textTransform: 'uppercase', color: '#50535e',
               borderBottom: '1px solid rgba(255,255,255,0.05)',
             }}>
               Explorer
