@@ -141,6 +141,13 @@ function SchemaFlowApp() {
     )
   }, [])
 
+  /* ── Delete collection ── */
+  const onDeleteCollection = useCallback((id) => {
+    setNodes((nds) => nds.filter((n) => n.id !== id))
+    setEdges((eds) => eds.filter((e) => e.source !== id && e.target !== id))
+    setSelectedNodeId((cur) => (cur === id ? null : cur))
+  }, [])
+
   /* ── Left sidebar collection list (derived) ── */
   const collections = nodes.map((n) => ({
     id:     n.id,
@@ -170,6 +177,7 @@ function SchemaFlowApp() {
           selectedId={selectedNodeId}
           onSelect={setSelectedNodeId}
           onAddCollection={addCollection}
+          onDeleteCollection={onDeleteCollection}
         />
 
         {/* Canvas */}
@@ -193,6 +201,7 @@ function SchemaFlowApp() {
           onClose={() => { setSelectedNodeId(null); setSelectedEdgeId(null) }}
           onUpdateNode={onUpdateNode}
           onUpdateEdge={onUpdateEdge}
+          onDeleteNode={onDeleteCollection}
         />
       </div>
 

@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import { Plus, Database, ChevronRight, Search, MoreHorizontal } from 'lucide-react'
+import { useState, useEffect } from 'react'
+import { Plus, Database, ChevronRight, Search, MoreHorizontal, Trash2 } from 'lucide-react'
 
 /**
  * LeftSidebar — collection list + add button.
@@ -11,9 +11,19 @@ export default function LeftSidebar({
   selectedId = null,
   onSelect,
   onAddCollection,
+  onDeleteCollection,
 }) {
   const [search, setSearch] = useState('')
   const [hovered, setHovered] = useState(null)
+  const [menuOpenId, setMenuOpenId] = useState(null)
+
+  /* Close dropdown when clicking anywhere outside */
+  useEffect(() => {
+    if (!menuOpenId) return
+    const handleClickOutside = () => setMenuOpenId(null)
+    window.addEventListener('click', handleClickOutside)
+    return () => window.removeEventListener('click', handleClickOutside)
+  }, [menuOpenId])
 
   const filtered = collections.filter((c) =>
     c.label.toLowerCase().includes(search.toLowerCase()),
@@ -92,6 +102,9 @@ export default function LeftSidebar({
               isHovered={hovered === col.id}
               onHover={setHovered}
               onSelect={onSelect}
+              isMenuOpen={menuOpenId === col.id}
+              onToggleMenu={(id) => setMenuOpenId((prev) => (prev === id ? null : id))}
+              onDelete={onDeleteCollection}
             />
           ))
         )}
@@ -129,7 +142,16 @@ export default function LeftSidebar({
 }
 
 /* ─── Collection Row ────────────────────────────────────────── */
-function CollectionRow({ collection, isSelected, isHovered, onHover, onSelect }) {
+function CollectionRow({
+  collection,
+  isSelected,
+  isHovered,
+  onHover,
+  onSelect,
+  isMenuOpen,
+  onToggleMenu,
+  onDelete,
+}) {
   const accentColor = collection.color ?? 'var(--brand)'
 
   return (
@@ -140,7 +162,7 @@ function CollectionRow({ collection, isSelected, isHovered, onHover, onSelect })
       onKeyDown={(e) => e.key === 'Enter' && onSelect?.(collection.id)}
       onMouseEnter={() => onHover(collection.id)}
       onMouseLeave={() => onHover(null)}
-      className="group flex items-center gap-2.5 cursor-pointer transition-all select-none"
+      className="group relative flex items-center gap-2.5 cursor-pointer transition-all select-none"
       style={{
         margin: '2px 8px',
         padding: '0 12px',
@@ -148,7 +170,7 @@ function CollectionRow({ collection, isSelected, isHovered, onHover, onSelect })
         borderRadius: 8,
         background: isSelected
           ? 'var(--brand-muted)'
-          : isHovered
+          : isHovered || isMenuOpen
             ? 'var(--bg-hover)'
             : 'transparent',
         border: isSelected ? '1px solid rgba(124,106,247,0.3)' : '1px solid transparent',
@@ -181,15 +203,49 @@ function CollectionRow({ collection, isSelected, isHovered, onHover, onSelect })
         {collection.fields?.length ?? 0}
       </span>
 
-      {/* More button (visible on hover/selected) */}
-      <button
-        onClick={(e) => e.stopPropagation()}
-        className="w-6 h-6 rounded-md flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer shrink-0"
-        style={{ color: 'var(--text-muted)' }}
-        title="Options"
-      >
-        <MoreHorizontal size={13} />
-      </button>
+      {/* More button */}
+      <div className="relative">
+        <button
+          onClick={(e) => {
+            e.stopPropagation()
+            onToggleMenu(collection.id)
+          }}
+          className={`w-6 h-6 rounded-md flex items-center justify-center transition-all cursor-pointer shrink-0 ${
+            isMenuOpen ? 'opacity-100 bg-[var(--bg-active)]' : 'opacity-0 group-hover:opacity-100'
+          }`}
+          style={{ color: isMenuOpen ? 'var(--text-primary)' : 'var(--text-muted)' }}
+          title="Collection options"
+        >
+          <MoreHorizontal size={14} />
+        </button>
+
+        {/* Dropdown Popover Menu */}
+        {isMenuOpen && (
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className="absolute right-0 top-full mt-1.5 py-1 w-38 rounded-lg shadow-2xl z-50 anim-fade"
+            style={{
+              background: '#1a1b1e',
+              border: '1px solid var(--border-base)',
+              boxShadow: '0 8px 28px rgba(0,0,0,0.7)',
+            }}
+          >
+            <button
+              onClick={() => {
+                onDelete?.(collection.id)
+                onToggleMenu(null)
+              }}
+              className="w-full flex items-center gap-2.5 px-3 py-2 text-xs font-medium cursor-pointer transition-colors text-left"
+              style={{ color: 'var(--red)' }}
+              onMouseEnter={(e) => (e.currentTarget.style.background = 'rgba(242,95,92,0.12)')}
+              onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}
+            >
+              <Trash2 size={13} />
+              Delete Collection
+            </button>
+          </div>
+        )}
+      </div>
     </div>
   )
 }

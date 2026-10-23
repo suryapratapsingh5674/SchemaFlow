@@ -266,6 +266,7 @@ export default function RightSidebar({
   onClose,
   onUpdateNode,
   onUpdateEdge,
+  onDeleteNode,
 }) {
   /* Show edge inspector when an edge is selected */
   if (selectedEdge) {
@@ -357,6 +358,25 @@ export default function RightSidebar({
           {fields.length} {fields.length === 1 ? 'field' : 'fields'}
         </span>
         <button
+          onClick={() => {
+            onDeleteNode?.(id)
+            onClose?.()
+          }}
+          title="Delete collection"
+          className="w-7 h-7 rounded-md flex items-center justify-center transition-colors cursor-pointer shrink-0"
+          style={{ color: 'var(--text-muted)' }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.background = 'rgba(242,95,92,0.15)'
+            e.currentTarget.style.color = 'var(--red)'
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.background = 'transparent'
+            e.currentTarget.style.color = 'var(--text-muted)'
+          }}
+        >
+          <Trash2 size={13} />
+        </button>
+        <button
           onClick={onClose}
           title="Close"
           className="w-7 h-7 rounded-md flex items-center justify-center transition-colors cursor-pointer shrink-0"
@@ -438,9 +458,9 @@ export default function RightSidebar({
           </button>
         </div>
 
-        {/* ── Stats ── */}
+        {/* ── Summary ── */}
         <SectionLabel>Summary</SectionLabel>
-        <div className="px-4 pb-5 grid grid-cols-2 gap-2.5">
+        <div className="px-4 pb-4 grid grid-cols-2 gap-2.5">
           {[
             { label: 'Total',    value: fields.length,                                    color: 'var(--brand)'          },
             { label: 'Required', value: fields.filter((f) => f.required).length,          color: 'var(--green)'          },
@@ -460,6 +480,33 @@ export default function RightSidebar({
               </span>
             </div>
           ))}
+        </div>
+
+        {/* ── Danger Zone ── */}
+        <div className="px-4 pb-6 pt-2">
+          <button
+            onClick={() => {
+              onDeleteNode?.(id)
+              onClose?.()
+            }}
+            className="w-full flex items-center justify-center gap-2 h-9 rounded-lg cursor-pointer transition-all text-xs font-semibold"
+            style={{
+              color: 'var(--red)',
+              background: 'rgba(242,95,92,0.08)',
+              border: '1px solid rgba(242,95,92,0.25)',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = 'rgba(242,95,92,0.18)'
+              e.currentTarget.style.borderColor = 'rgba(242,95,92,0.5)'
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = 'rgba(242,95,92,0.08)'
+              e.currentTarget.style.borderColor = 'rgba(242,95,92,0.25)'
+            }}
+          >
+            <Trash2 size={13} />
+            Delete Collection
+          </button>
         </div>
       </div>
     </aside>
