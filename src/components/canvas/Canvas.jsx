@@ -69,22 +69,23 @@ function EmptyHint() {
   )
 }
 
-/* ─── Canvas hint overlay (top-right corner) ────────────────── */
+/* ─── Canvas hint overlay (top-center pill) ────────────────── */
 function CanvasHints() {
   return (
-    <Panel position="top-right" style={{ margin: '16px 20px 0 0' }}>
+    <Panel position="top-center" style={{ marginTop: 14 }}>
       <div
-        className="flex flex-col gap-1.5 text-[11px] px-3.5 py-2.5 rounded-lg select-none shadow-md backdrop-blur-md"
+        className="flex items-center gap-2.5 text-[11px] px-4 py-1.5 rounded-full select-none shadow-md backdrop-blur-md"
         style={{
           background: 'rgba(19, 20, 22, 0.85)',
           border: '1px solid var(--border-base)',
           color: 'var(--text-muted)',
         }}
       >
-        <span className="font-semibold text-[10px] uppercase tracking-wider text-[var(--text-secondary)]">Tips</span>
-        <span>• Drag handles to connect nodes</span>
-        <span>• Scroll to zoom · Drag canvas to pan</span>
-        <span>• Delete / Backspace to remove selected</span>
+        <span>Drag handles to connect</span>
+        <span style={{ color: 'var(--border-strong)' }}>·</span>
+        <span>Scroll to zoom</span>
+        <span style={{ color: 'var(--border-strong)' }}>·</span>
+        <span>Delete to remove</span>
       </div>
     </Panel>
   )
