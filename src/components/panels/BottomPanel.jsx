@@ -417,17 +417,17 @@ function EditorPanel({ formatFiles, activeFile, openTabs, onSelectFile, onCloseT
       {/* Editor toolbar — breadcrumb + copy */}
       {hasCode && activeFile && (
         <div style={{
-          display: 'flex', alignItems: 'center', gap: 4,
-          padding: '4px 14px',
+          display: 'flex', alignItems: 'center', gap: 6,
+          padding: '6px 16px',
           borderBottom: '1px solid rgba(255,255,255,0.05)',
           background: '#0d0e10',
           flexShrink: 0,
         }}>
-          <span style={{ fontSize: 11, fontFamily: 'monospace', color: '#3e4451' }}>backend</span>
-          <ChevronRight size={9} style={{ color: '#3e4451' }} />
-          <span style={{ fontSize: 11, fontFamily: 'monospace', color: '#3e4451' }}>models</span>
-          <ChevronRight size={9} style={{ color: '#3e4451' }} />
-          <span style={{ fontSize: 11, fontFamily: 'monospace', color: fileColor(activeFile), fontWeight: 600 }}>
+          <span style={{ fontSize: 11, fontFamily: 'monospace', color: '#50535e' }}>backend</span>
+          <ChevronRight size={10} style={{ color: '#50535e' }} />
+          <span style={{ fontSize: 11, fontFamily: 'monospace', color: '#50535e' }}>models</span>
+          <ChevronRight size={10} style={{ color: '#50535e' }} />
+          <span style={{ fontSize: 11.5, fontFamily: 'monospace', color: fileColor(activeFile), fontWeight: 600 }}>
             {activeFile}
           </span>
           <div style={{ flex: 1 }} />
